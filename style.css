@@ -514,6 +514,29 @@ body {
     color: #cccccc !important;
 }
 
+/* South African Flag Image */
+.sa-flag-img {
+    display: inline-block;
+    width: 32px;
+    height: 21px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border-radius: 2px;
+    transition: transform 0.2s ease;
+}
+
+.sa-flag-img:hover {
+    transform: scale(1.1);
+}
+
+/* Better spacing in footer for flag */
+.footer p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
 /* Proudly South African Badge */
 .south-african-flag {
     display: inline-block;
