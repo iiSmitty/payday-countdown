@@ -147,8 +147,18 @@ function calculateSouthAfricanSurvival() {
 }
 
 // ===============================================================
-// LOAD SHEDDING SIMULATION (Easter Egg)
+// TESTIMONIALS SCROLL FUNCTIONALITY
 // ===============================================================
+function scrollTestimonials(direction) {
+    const container = document.querySelector('.testimonials-scroll');
+    const scrollAmount = 340; // Width of one testimonial plus gap
+
+    if (direction === 1) {
+        container.scrollLeft += scrollAmount;
+    } else {
+        container.scrollLeft -= scrollAmount;
+    }
+}
 function simulateLoadShedding() {
     // Create a full-screen overlay for dramatic effect
     const flashOverlay = document.createElement('div');

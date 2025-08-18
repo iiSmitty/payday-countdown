@@ -285,21 +285,50 @@ body {
     color: #007749;
 }
 
-/* Testimonials - South African Grid */
-.testimonials {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+/* Testimonials - Scrollable Carousel */
+.testimonials-container {
+    position: relative;
     margin-top: 20px;
+}
+
+.testimonials-scroll {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+    scrollbar-width: thin;
+    scrollbar-color: #007749 #f0f0f0;
+}
+
+.testimonials-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.testimonials-scroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
+.testimonials-scroll::-webkit-scrollbar-thumb {
+    background: #007749;
+    border-radius: 4px;
+}
+
+.testimonials-scroll::-webkit-scrollbar-thumb:hover {
+    background: #005234;
 }
 
 .testimonial {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    padding: 20px;
+    padding: 25px;
     border-left: 4px solid #007749;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     position: relative;
+    min-width: 320px;
+    max-width: 350px;
+    flex-shrink: 0;
 }
 
 .testimonial::before {
@@ -315,16 +344,110 @@ body {
 
 .testimonial-text {
     font-style: italic;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     color: #555;
     padding-top: 20px;
+    line-height: 1.6;
 }
 
 .testimonial-author {
-    font-weight: bold;
     color: #002F6C;
     font-size: 0.9em;
-    text-align: right;
+    line-height: 1.4;
+}
+
+.testimonial-author strong {
+    color: #002F6C;
+    font-weight: bold;
+}
+
+.testimonial-author .location {
+    color: #007749;
+    font-weight: 500;
+}
+
+.testimonial-author .connection {
+    color: #666;
+    font-style: italic;
+    font-size: 0.85em;
+}
+
+/* Navigation Buttons */
+.testimonials-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.nav-btn {
+    background: linear-gradient(135deg, #007749 0%, #005234 100%);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    border: 2px solid #FFB612;
+}
+
+.nav-btn:hover {
+    background: linear-gradient(135deg, #005234 0%, #003d26 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.nav-btn:active {
+    transform: translateY(0);
+}
+
+/* Dark mode testimonials */
+.load-shedding-mode .testimonial {
+    background: linear-gradient(135deg, #333333 0%, #2d2d2d 100%) !important;
+    color: #f0f0f0 !important;
+    border-left-color: #007749 !important;
+}
+
+.load-shedding-mode .testimonial-text {
+    color: #e0e0e0 !important;
+}
+
+.load-shedding-mode .testimonial-author strong {
+    color: #ffffff !important;
+}
+
+.load-shedding-mode .testimonial-author .location {
+    color: #FFB612 !important;
+}
+
+.load-shedding-mode .testimonial-author .connection {
+    color: #cccccc !important;
+}
+
+.load-shedding-mode .testimonials-scroll::-webkit-scrollbar-track {
+    background: #333333;
+}
+
+/* Responsive testimonials */
+@media (max-width: 768px) {
+    .testimonial {
+        min-width: 280px;
+        max-width: 300px;
+        padding: 20px;
+    }
+
+    .testimonials-scroll {
+        gap: 15px;
+    }
+
+    .nav-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
 }
 
 /* Footer - South African Colors */
