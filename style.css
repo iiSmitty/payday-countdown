@@ -406,17 +406,112 @@ body {
     }
 }
 
-/* Load Shedding Theme (Easter Egg) */
-@media (prefers-color-scheme: dark) {
-    .load-shedding-mode {
-        background-color: #1a1a1a !important;
-        color: #f5f5f5 !important;
-    }
+/* Load Shedding Dark Mode - Permanent after simulation */
+.load-shedding-mode {
+    background-color: #1a1a1a !important;
+    color: #f0f0f0 !important;
+}
 
-    .load-shedding-mode .section {
-        background-color: #2d2d2d !important;
-        border-color: #444 !important;
-    }
+.load-shedding-mode .main-content {
+    background-color: #1a1a1a !important;
+}
+
+.load-shedding-mode .section {
+    background-color: #2d2d2d !important;
+    border-color: #555 !important;
+    color: #f0f0f0 !important;
+}
+
+.load-shedding-mode .countdown-section {
+    background: linear-gradient(135deg, #2d2d2d 0%, #333333 100%) !important;
+    border-color: #007749 !important;
+    color: #f0f0f0 !important;
+}
+
+.load-shedding-mode .countdown-title {
+    color: #ffffff !important;
+}
+
+.load-shedding-mode .wallet-section {
+    background-color: #2d2d2d !important;
+    border-color: #555 !important;
+    color: #f0f0f0 !important;
+}
+
+.load-shedding-mode .wallet-section h3 {
+    color: #ffffff !important;
+}
+
+.load-shedding-mode .survival-section {
+    background: linear-gradient(135deg, #2d2d2d 0%, #333333 100%) !important;
+    border-left-color: #007749 !important;
+    color: #f0f0f0 !important;
+}
+
+.load-shedding-mode .testimonial {
+    background: linear-gradient(135deg, #333333 0%, #2d2d2d 100%) !important;
+    color: #f0f0f0 !important;
+    border-left-color: #007749 !important;
+}
+
+.load-shedding-mode .section-content {
+    color: #e0e0e0 !important;
+}
+
+.load-shedding-mode .testimonial-text {
+    color: #e0e0e0 !important;
+}
+
+.load-shedding-mode .section-title {
+    color: #ffffff !important;
+    border-bottom-color: #007749 !important;
+}
+
+.load-shedding-mode .section-title::after {
+    background-color: #FFB612 !important;
+}
+
+.load-shedding-mode .testimonial-author {
+    color: #ffffff !important;
+}
+
+/* Fix any remaining dark text in load shedding mode */
+.load-shedding-mode h1,
+.load-shedding-mode h2,
+.load-shedding-mode h3,
+.load-shedding-mode p,
+.load-shedding-mode span {
+    color: inherit !important;
+}
+
+/* Ensure countdown text stays readable */
+.load-shedding-mode .time-unit {
+    background: linear-gradient(135deg, #007749 0%, #005234 100%) !important;
+    color: white !important;
+    border-color: #FFB612 !important;
+}
+
+/* Footer in dark mode */
+.load-shedding-mode .footer {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%) !important;
+    color: #f0f0f0 !important;
+}
+
+/* Ensure all paragraphs and text elements are visible */
+.load-shedding-mode .countdown-section p,
+.load-shedding-mode .wallet-section p {
+    color: #cccccc !important;
+}
+
+/* Survival result text in dark mode */
+.load-shedding-mode .survival-result {
+    background-color: #333333 !important;
+    border-color: #007749 !important;
+    color: #f0f0f0 !important;
+}
+
+.load-shedding-mode .survival-analysis {
+    color: #cccccc !important;
 }
 
 /* Proudly South African Badge */

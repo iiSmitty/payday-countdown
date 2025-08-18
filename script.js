@@ -150,89 +150,119 @@ function calculateSouthAfricanSurvival() {
 // LOAD SHEDDING SIMULATION (Easter Egg)
 // ===============================================================
 function simulateLoadShedding() {
-    console.log('⚡ Starting load shedding simulation...');
+    // Create a full-screen overlay for dramatic effect
+    const flashOverlay = document.createElement('div');
+    flashOverlay.style.cssText = `
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background-color: #000000 !important;
+        z-index: 99999 !important;
+        pointer-events: none !important;
+        display: block !important;
+    `;
 
-    const body = document.body;
-    const originalBg = getComputedStyle(body).backgroundColor;
+    document.body.appendChild(flashOverlay);
 
-    // Create dramatic power outage effect
-    body.style.transition = 'background-color 0.3s ease';
-    body.style.backgroundColor = '#000000';
-
-    // Flash effect
+    // Flash sequence
     let flashCount = 0;
+    const totalFlashes = 6;
+
     const flashInterval = setInterval(() => {
         if (flashCount % 2 === 0) {
-            body.style.backgroundColor = '#000000';
+            flashOverlay.style.backgroundColor = '#000000'; // Black
         } else {
-            body.style.backgroundColor = '#1a1a1a';
+            flashOverlay.style.backgroundColor = '#ffffff'; // White
         }
+
         flashCount++;
 
-        if (flashCount >= 6) {
+        if (flashCount >= totalFlashes) {
             clearInterval(flashInterval);
 
-            // Show load shedding message
+            // Remove flash overlay and show message
             setTimeout(() => {
-                body.style.backgroundColor = originalBg;
-
-                // Create custom alert overlay
-                const overlay = document.createElement('div');
-                overlay.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0,0,0,0.8);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    z-index: 9999;
-                    font-family: Arial, sans-serif;
-                `;
-
-                const message = document.createElement('div');
-                message.style.cssText = `
-                    background: linear-gradient(135deg, #007749, #005234);
-                    color: white;
-                    padding: 30px;
-                    border-radius: 12px;
-                    text-align: center;
-                    max-width: 400px;
-                    border: 3px solid #FFB612;
-                    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-                `;
-
-                message.innerHTML = `
-                    <h2 style="margin: 0 0 15px 0; color: #FFB612;">⚡ LOAD SHEDDING SIMULATION ⚡</h2>
-                    <p style="margin: 0 0 15px 0; font-size: 16px;">
-                        Stage 4 Load Shedding simulation complete!<br>
-                        Your countdown survived because we use<br>
-                        battery backup and solar power! 🔋☀️
-                    </p>
-                    <p style="margin: 0 0 20px 0; font-style: italic; opacity: 0.9;">
-                        "Thanks Eskom, very cool!" - Nobody, ever
-                    </p>
-                    <button onclick="this.parentElement.parentElement.remove()" style="
-                        background: #FFB612;
-                        color: #002F6C;
-                        border: none;
-                        padding: 10px 20px;
-                        border-radius: 6px;
-                        font-weight: bold;
-                        cursor: pointer;
-                        font-size: 14px;
-                    ">Close (Power Restored)</button>
-                `;
-
-                overlay.appendChild(message);
-                document.body.appendChild(overlay);
-
-                console.log('💡 Load shedding simulation complete!');
+                flashOverlay.remove();
+                showLoadSheddingMessage();
             }, 500);
         }
-    }, 200);
+    }, 400);
+}
+
+function showLoadSheddingMessage() {
+    // Apply permanent dark mode after load shedding
+    document.body.classList.add('load-shedding-mode');
+
+    // Create custom alert overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        font-family: Arial, sans-serif;
+    `;
+
+    const message = document.createElement('div');
+    message.style.cssText = `
+        background: linear-gradient(135deg, #007749, #005234);
+        color: white;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        max-width: 400px;
+        border: 3px solid #FFB612;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        animation: slideIn 0.5s ease-out;
+    `;
+
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    message.innerHTML = `
+        <h2 style="margin: 0 0 15px 0; color: #FFB612;">⚡ LOAD SHEDDING SIMULATION ⚡</h2>
+        <p style="margin: 0 0 15px 0; font-size: 16px;">
+            Stage 4 Load Shedding simulation complete!<br>
+            Your countdown survived because we use<br>
+            battery backup and solar power! 🔋☀️
+        </p>
+        <p style="margin: 0 0 15px 0; font-style: italic; opacity: 0.9; color: #FFB612;">
+            <strong>Notice:</strong> The website is now permanently in<br>
+            "Load Shedding Mode" (Dark Theme) 🌙
+        </p>
+        <p style="margin: 0 0 20px 0; font-style: italic; opacity: 0.8; font-size: 14px;">
+            "Thanks Eskom, very cool!" - Nobody, ever
+        </p>
+        <button onclick="this.parentElement.parentElement.remove(); document.head.removeChild(document.head.lastElementChild);" style="
+            background: #FFB612;
+            color: #002F6C;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Close (Power "Restored")</button>
+    `;
+
+    overlay.appendChild(message);
+    document.body.appendChild(overlay);
 }
 
 // ===============================================================
@@ -424,12 +454,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.code === 'KeyL') {
             clearTimeout(loadSheddingTimer);
             loadSheddingSequence.push('L');
-            console.log('L pressed, sequence:', loadSheddingSequence.join(''));
 
             // Reset sequence after 2 seconds of no input
             loadSheddingTimer = setTimeout(() => {
                 loadSheddingSequence = [];
-                console.log('Load shedding sequence reset');
             }, 2000);
 
             // Trigger load shedding on triple L
@@ -437,7 +465,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 event.preventDefault();
                 simulateLoadShedding();
                 loadSheddingSequence = []; // Reset
-                console.log('🔌 Load shedding simulation triggered by LLL!');
             }
         }
     });
