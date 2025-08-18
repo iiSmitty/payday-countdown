@@ -1,4 +1,53 @@
-// ===============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    // Start the countdown timer
+    updateCountdown();
+
+    // Update countdown every second (unless there's load shedding)
+    setInterval(updateCountdown, 1000);
+
+    // Add click listener to survival button
+    document.getElementById('survivalButton').addEventListener('click', calculateSouthAfricanSurvival);
+
+    // Check for special South African dates
+    checkForSpecialDates();
+
+    // Add some local flair every 30 seconds
+    setInterval(() => {
+        if (Math.random() < 0.1) { // 10% chance every 30 seconds
+            showRandomMotivation();
+        }
+    }, 30000);
+
+    // Initialize memes and animations
+    updateVibeCheck();
+    updateWalletMeme(false);
+
+    // Change vibe every 45 seconds
+    setInterval(updateVibeCheck, 45000);
+
+    // Load shedding simulation - Triple L press (LLL)
+    let loadSheddingSequence = [];
+    let loadSheddingTimer;
+
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'KeyL') {
+            clearTimeout(loadSheddingTimer);
+            loadSheddingSequence.push('L');
+
+            // Reset sequence after 2 seconds of no input
+            loadSheddingTimer = setTimeout(() => {
+                loadSheddingSequence = [];
+            }, 2000);
+
+            // Trigger load shedding on triple L
+            if (loadSheddingSequence.length >= 3) {
+                event.preventDefault();
+                simulateLoadShedding();
+                loadSheddingSequence = []; // Reset
+            }
+        }
+    });
+});// ===============================================================
 // SOUTH AFRICAN PRE-PAYDAY SURVIVAL BUREAU
 // ===============================================================
 // Proudly South African countdown timer and survival calculator
@@ -60,14 +109,23 @@ function updateCountdown() {
     const percentageToPayday = Math.max(0, (timeElapsed / totalCountdownTime) * 100);
 
     // Wallet gets money when we're 75% through the countdown period
-    if (percentageToPayday > 75 || days <= 2) {
+    const walletIsRich = percentageToPayday > 75 || days <= 2;
+    if (walletIsRich) {
         document.getElementById('wallet').classList.add('rich');
     } else {
         document.getElementById('wallet').classList.remove('rich');
     }
 
+    // Update wallet meme based on status
+    updateWalletMeme(walletIsRich);
+
     // Special South African time-based messages
     updateSouthAfricanMessages(days, hours);
+
+    // Update vibe check occasionally
+    if (seconds % 30 === 0) {
+        updateVibeCheck();
+    }
 }
 
 // ===============================================================
@@ -144,6 +202,299 @@ function calculateSouthAfricanSurvival() {
     setTimeout(() => {
         percentageElement.style.transform = 'scale(1)';
     }, 100);
+
+    // Show reaction meme
+    showReactionMeme(percentage);
+}
+
+// ===============================================================
+// MEMES AND ANIMATIONS SYSTEM
+// ===============================================================
+const vibeStates = [
+    { emoji: '🫠', text: 'Current Vibe: Financially Challenged' },
+    { emoji: '😭', text: 'Current Vibe: Crying in Broke' },
+    { emoji: '🤡', text: 'Current Vibe: Pretending I\'m Fine' },
+    { emoji: '💀', text: 'Current Vibe: Dead Inside' },
+    { emoji: '🎭', text: 'Current Vibe: Acting Rich' },
+    { emoji: '🫥', text: 'Current Vibe: Invisible Bank Balance' },
+    { emoji: '😵‍💫', text: 'Current Vibe: Confused by Numbers' },
+    { emoji: '🤠', text: 'Current Vibe: Yeehaw Broke' }
+];
+
+const southAfricanMemes = [
+    '🛒 "Going to Pick n Pay" vs "Going to Woolies" 💸',
+    '⛽ "Before petrol price increase" vs "After" 😢',
+    '💡 "Stage 0" vs "Stage 6 Load Shedding" 🕯️',
+    '🚗 "Full tank" vs "R50 worth of petrol" 📏',
+    '🍜 "Gourmet dinner" vs "Two-minute noodles again" 😋',
+    '📱 "Unlimited data" vs "Out of airtime" 📵',
+    '🏠 "Going home for the weekend" vs "Mom\'s cooking" 🍽️',
+    '💳 "Payday" vs "3 days after payday" 💸',
+    '🌮 "KFC Streetwise 2" vs "Bread and butter" 🍞',
+    '🚗 "Uber everywhere" vs "Walking is exercise" 🚶‍♂️'
+];
+
+const reactionMemes = [
+    { emoji: '😱', text: 'This is fine' },
+    { emoji: '🤠', text: 'Guess I\'ll die' },
+    { emoji: '🫠', text: 'Everything is awesome' },
+    { emoji: '😵‍💫', text: 'Math is hard' },
+    { emoji: '🤡', text: 'I\'m in danger' },
+    { emoji: '💀', text: 'Coffin dance time' },
+    { emoji: '🎭', text: 'I\'m not crying' },
+    { emoji: '🫥', text: 'Wallet.exe has stopped' }
+];
+
+function updateVibeCheck() {
+    const vibeEmoji = document.getElementById('vibeEmoji');
+    const vibeText = document.getElementById('vibeText');
+
+    if (vibeEmoji && vibeText) {
+        const randomVibe = vibeStates[Math.floor(Math.random() * vibeStates.length)];
+        vibeEmoji.textContent = randomVibe.emoji;
+        vibeText.textContent = randomVibe.text;
+    }
+}
+
+function updateWalletMeme(isRich = false) {
+    const walletMemeBottom = document.getElementById('walletMemeBottom');
+    if (walletMemeBottom) {
+        if (isRich) {
+            walletMemeBottom.textContent = 'MONEY PRINTER GO BRRRR';
+        } else {
+            const poorMemes = [
+                'MOTHS FLYING OUT',
+                'TUMBLEWEEDS ROLLING',
+                'ECHO... ECHO... ECHO...',
+                'SPIDER WEBS FORMING',
+                'DUST BUNNIES NESTING'
+            ];
+            walletMemeBottom.textContent = poorMemes[Math.floor(Math.random() * poorMemes.length)];
+        }
+    }
+}
+
+function showRandomMeme() {
+    const randomMeme = southAfricanMemes[Math.floor(Math.random() * southAfricanMemes.length)];
+
+    // Create backdrop
+    const backdrop = document.createElement('div');
+    backdrop.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+        animation: fadeIn 0.3s ease-out;
+    `;
+
+    // Create popup meme
+    const memePopup = document.createElement('div');
+    memePopup.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        border: 3px solid #000000;
+        border-radius: 12px;
+        box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+        z-index: 1000;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        animation: memeSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-family: 'Arial Black', Arial, sans-serif;
+    `;
+
+    memePopup.innerHTML = `
+        <div style="
+            background: linear-gradient(135deg, #007749, #005234);
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            margin: -3px -3px 0 -3px;
+            border-bottom: 2px solid #FFB612;
+        ">
+            <div style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                margin-bottom: 5px;
+            ">
+                <img src="sa-flag.png" alt="SA Flag" style="
+                    width: 42px;
+                    height: 28px;
+                    border-radius: 3px;
+                ">
+            </div>
+            <div style="font-weight: bold; font-size: 14px; letter-spacing: 1px;">SOUTH AFRICAN MEME ALERT</div>
+        </div>
+        
+        <div style="padding: 25px 20px;">
+            <div style="
+                background: #f8f9fa;
+                border: 2px dashed #007749;
+                border-radius: 8px;
+                padding: 20px 15px;
+                margin-bottom: 20px;
+                position: relative;
+                padding-top: 35px;
+            ">
+                <div style="
+                    position: absolute;
+                    top: 8px;
+                    right: 8px;
+                    background: #FFB612;
+                    color: #002F6C;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 10px;
+                    font-weight: bold;
+                    transform: rotate(12deg);
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                    z-index: 1;
+                ">LEKKER!</div>
+                
+                <div style="
+                    font-size: 18px;
+                    color: #002F6C;
+                    font-weight: 900;
+                    line-height: 1.4;
+                    text-shadow: 1px 1px 0 #fff;
+                ">${randomMeme}</div>
+            </div>
+            
+            <div style="
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+                align-items: center;
+            ">
+                <button onclick="showRandomMeme(); this.closest('.meme-backdrop').remove();" style="
+                    background: linear-gradient(135deg, #FFB612, #e6a500);
+                    color: #002F6C;
+                    border: 2px solid #007749;
+                    padding: 10px 20px;
+                    border-radius: 25px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 14px;
+                    transition: all 0.2s ease;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    🎲 Another One!
+                </button>
+                
+                <button onclick="this.closest('.meme-backdrop').remove();" style="
+                    background: linear-gradient(135deg, #007749, #005234);
+                    color: white;
+                    border: 2px solid #FFB612;
+                    padding: 10px 20px;
+                    border-radius: 25px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 14px;
+                    transition: all 0.2s ease;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    🙌 Sharp Sharp!
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Combine backdrop and popup
+    backdrop.className = 'meme-backdrop';
+    backdrop.appendChild(memePopup);
+
+    // Add enhanced animations
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes memeSlideIn {
+            0% { 
+                transform: translate(-50%, -50%) scale(0.3) rotate(-10deg);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1) rotate(2deg);
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes memeWobble {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(1deg); }
+            75% { transform: translate(-50%, -50%) rotate(-1deg); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Close on backdrop click
+    backdrop.addEventListener('click', function(e) {
+        if (e.target === backdrop) {
+            backdrop.remove();
+            style.remove();
+        }
+    });
+
+    document.body.appendChild(backdrop);
+
+    // Add wobble animation after initial load
+    setTimeout(() => {
+        memePopup.style.animation = 'memeWobble 2s ease-in-out infinite';
+    }, 500);
+
+    // Auto remove after 8 seconds
+    setTimeout(() => {
+        if (backdrop.parentNode) {
+            backdrop.remove();
+            style.remove();
+        }
+    }, 8000);
+}
+
+function showReactionMeme(percentage) {
+    const reactionContainer = document.getElementById('reactionContainer');
+    const reactionEmoji = document.getElementById('reactionEmoji');
+    const reactionText = document.getElementById('reactionText');
+
+    if (reactionContainer && reactionEmoji && reactionText) {
+        let reaction;
+
+        if (percentage < 20) {
+            reaction = { emoji: '💀', text: 'RIP my bank account' };
+        } else if (percentage < 40) {
+            reaction = { emoji: '😱', text: 'This is fine... probably' };
+        } else if (percentage < 60) {
+            reaction = { emoji: '🤠', text: 'Yeehaw, still alive' };
+        } else if (percentage < 80) {
+            reaction = { emoji: '😎', text: 'Living my best broke life' };
+        } else {
+            reaction = { emoji: '🎉', text: 'Survival master!' };
+        }
+
+        reactionEmoji.textContent = reaction.emoji;
+        reactionText.textContent = reaction.text;
+        reactionContainer.style.display = 'block';
+
+        // Add shake animation
+        reactionEmoji.style.animation = 'shake 0.5s ease-in-out';
+        setTimeout(() => {
+            if (reactionEmoji.style) {
+                reactionEmoji.style.animation = '';
+            }
+        }, 500);
+    }
 }
 
 // ===============================================================

@@ -43,20 +43,67 @@
         <!-- Visual Gag -->
         <section class="wallet-section">
             <h3 style="color: #2c3e50; margin-bottom: 20px;">Current Wallet Status (Post-Petrol Price Hike)</h3>
-            <div class="wallet" id="wallet">
-                <div class="wallet-fold"></div>
-                <div class="wallet-body"></div>
-                <div class="wallet-money"></div>
+
+            <!-- Meme Image Placeholder -->
+            <div class="meme-container">
+                <div class="meme-image" id="walletMeme">
+                    <div class="meme-top-text">CHECKING MY WALLET</div>
+                    <div class="wallet" id="wallet">
+                        <div class="wallet-fold"></div>
+                        <div class="wallet-body"></div>
+                        <div class="wallet-money"></div>
+                    </div>
+                    <div class="meme-bottom-text" id="walletMemeBottom">MOTHS FLYING OUT</div>
+                </div>
             </div>
+
+            <!-- Status Indicators -->
+            <div class="status-indicators">
+                    <span class="status-item">
+                        <span class="status-emoji">💸</span>
+                        <span class="status-text">Money Status: Gone</span>
+                    </span>
+                <span class="status-item">
+                        <span class="status-emoji">🛒</span>
+                        <span class="status-text">Shopping List: Window</span>
+                    </span>
+                <span class="status-item">
+                        <span class="status-emoji">🍜</span>
+                        <span class="status-text">Diet: Two-Minute Noodles</span>
+                    </span>
+            </div>
+
             <p style="color: #7f8c8d; font-style: italic;">Live representation of remaining cash after load shedding candles</p>
         </section>
 
         <!-- Interactive Element -->
         <section class="survival-section">
+            <!-- Meme Header -->
+            <div class="section-meme">
+                <span class="meme-emoji bouncing">🎯</span>
+                <span class="meme-caption">*Calculating the odds of making it*</span>
+            </div>
+
             <button class="survival-button" id="survivalButton">Calculate Month-End Survival Probability</button>
             <div class="survival-result" id="survivalResult">
                 <div class="survival-percentage" id="survivalPercentage"></div>
                 <div class="survival-analysis" id="survivalAnalysis"></div>
+
+                <!-- Reaction GIF placeholder -->
+                <div class="reaction-container" id="reactionContainer" style="display: none;">
+                    <div class="reaction-gif">
+                        <span class="reaction-emoji" id="reactionEmoji">😱</span>
+                        <div class="reaction-text" id="reactionText">This is fine</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Random South African Memes -->
+            <div class="random-memes">
+                <div class="mini-meme" onclick="showRandomMeme()">
+                    <span class="mini-emoji">🤣</span>
+                    <span class="mini-text">Click for SA Meme</span>
+                </div>
             </div>
         </section>
 
