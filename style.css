@@ -88,6 +88,7 @@ body {
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 30px;
+    margin-top: 30px;
     position: relative;
 }
 
@@ -102,9 +103,18 @@ body {
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
-    transform: rotate(-12deg);
+    transform: rotate(-12deg) translateZ(0);
     box-shadow: 0 2px 8px rgba(222, 56, 49, 0.3);
     z-index: 5;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    font-family: 'Arial Black', Arial, sans-serif;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    transform-origin: center center;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .countdown-title {
