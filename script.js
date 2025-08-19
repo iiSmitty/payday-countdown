@@ -1,5 +1,5 @@
 // ===============================================================
-// SOUTH AFRICAN PRE-PAYDAY SURVIVAL BUREAU - COMPLETE SCRIPT
+// SOUTH AFRICAN PRE-PAYDAY SURVIVAL BUREAU
 // ===============================================================
 // Proudly South African countdown timer and survival calculator
 // Load shedding resistant and SARS compliant!
@@ -871,9 +871,6 @@ function showRandomMotivation() {
 // ===============================================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🇿🇦 South African Pre-Payday Survival Bureau initialized successfully!');
-    console.log('📅 Next payday calculated as:', getNextPayday().toLocaleDateString('en-ZA'));
-
     // Start the countdown
     updateCountdown();
     setInterval(updateCountdown, 1000);
@@ -882,13 +879,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the first message
     currentMessage = 'Official Countdown to Salary Day (Subject to SARS Deductions, Municipal Rate Increases, and Eskom\'s Mood)';
     lastMessageUpdate = Date.now();
-
-    // Optional: Add payday info to console for debugging
-    const nextPayday = getNextPayday();
-    console.log('🗓️ Payday details:');
-    console.log('   Date:', nextPayday.toDateString());
-    console.log('   Time:', nextPayday.toTimeString());
-    console.log('   Days until payday:', Math.ceil((nextPayday - new Date()) / (1000 * 60 * 60 * 24)));
 
     // Add click listener to survival button
     const survivalButton = document.getElementById('survivalButton');
@@ -936,20 +926,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    console.log('🕐 Current SA time:', getSouthAfricanTime());
-    console.log(`🎮 EASTER EGG INSTRUCTIONS:
-- Press L three times quickly (LLL) for load shedding simulation
-- Type "BRAAI" for braai mode
-- Type "HOWZIT" for SA greetings
-- Use Konami code (↑↑↓↓←→←→BA) for instant wealth`);
-
-    // Show a welcome message
+    // Show welcome message with Easter egg instructions
     setTimeout(() => {
         if (Math.random() < 0.7) { // 70% chance of showing welcome
             showRandomMotivation();
         }
     }, 2000);
 
+    // Clean console output - only show the welcome message
     console.log(`🇿🇦 Welcome to the South African Pre-Payday Survival Bureau! 🇿🇦
 
 Available Easter Eggs:
