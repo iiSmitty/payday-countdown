@@ -1,110 +1,111 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Start the countdown timer
-    updateCountdown();
-
-    // Update countdown every second (unless there's load shedding)
-    setInterval(updateCountdown, 1000);
-
-    // Add click listener to survival button
-    document.getElementById('survivalButton').addEventListener('click', calculateSouthAfricanSurvival);
-
-    // Check for special South African dates
-    checkForSpecialDates();
-
-    // Add some local flair every 30 seconds
-    setInterval(() => {
-        if (Math.random() < 0.1) { // 10% chance every 30 seconds
-            showRandomMotivation();
-        }
-    }, 30000);
-
-    // Initialize memes and animations
-    updateVibeCheck();
-    updateWalletMeme(false);
-
-    // Change vibe every 45 seconds
-    setInterval(updateVibeCheck, 45000);
-
-    // Load shedding simulation - Triple L press (LLL)
-    let loadSheddingSequence = [];
-    let loadSheddingTimer;
-
-    document.addEventListener('keydown', function(event) {
-        if (event.code === 'KeyL') {
-            clearTimeout(loadSheddingTimer);
-            loadSheddingSequence.push('L');
-
-            // Reset sequence after 2 seconds of no input
-            loadSheddingTimer = setTimeout(() => {
-                loadSheddingSequence = [];
-            }, 2000);
-
-            // Trigger load shedding on triple L
-            if (loadSheddingSequence.length >= 3) {
-                event.preventDefault();
-                simulateLoadShedding();
-                loadSheddingSequence = []; // Reset
-            }
-        }
-    });
-});// ===============================================================
-// SOUTH AFRICAN PRE-PAYDAY SURVIVAL BUREAU
+// ===============================================================
+// SOUTH AFRICAN PRE-PAYDAY SURVIVAL BUREAU - COMPLETE SCRIPT
 // ===============================================================
 // Proudly South African countdown timer and survival calculator
 // Load shedding resistant and SARS compliant!
 
 // ===============================================================
-// PAYDAY COUNTDOWN CONFIGURATION
+// DYNAMIC PAYDAY CALCULATION
 // ===============================================================
-// CHANGE THIS DATE to set your target payday (Month-end!)
-// Format: Year, Month (0-11), Day, Hour (0-23), Minute
-// Example: new Date(2025, 7, 31, 9, 0) = August 31, 2025 at 9:00 AM
-// Note: Most South Africans get paid on the 25th or last working day
-const PAYDAY_DATE = new Date(2025, 7, 25, 9, 0); // August 25, 2025 at 9:00 AM
+
+function getNextPayday() {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+    const currentDay = today.getDate();
+
+    // Try current month first
+    let paydayMonth = currentMonth;
+    let paydayYear = currentYear;
+
+    // Calculate payday for current month
+    let payday = calculatePaydayForMonth(paydayYear, paydayMonth);
+
+    // If payday has already passed this month, get next month's payday
+    if (today > payday) {
+        paydayMonth++;
+        if (paydayMonth > 11) {
+            paydayMonth = 0;
+            paydayYear++;
+        }
+        payday = calculatePaydayForMonth(paydayYear, paydayMonth);
+    }
+
+    return payday;
+}
+
+function calculatePaydayForMonth(year, month) {
+    // Most common payday is 25th, but if it's weekend, use last working day
+    let payday = new Date(year, month, 25, 9, 0, 0); // 9 AM on 25th
+
+    // If 25th is Saturday (6) or Sunday (0), move to Friday
+    if (payday.getDay() === 6) { // Saturday
+        payday.setDate(24); // Friday
+    } else if (payday.getDay() === 0) { // Sunday
+        payday.setDate(24); // Friday (25th - 1)
+    }
+
+    // Alternative: Some companies pay on last working day of month
+    // Uncomment this section if you prefer last working day instead of 25th
+    /*
+    let lastDay = new Date(year, month + 1, 0); // Last day of month
+    while (lastDay.getDay() === 0 || lastDay.getDay() === 6) {
+        lastDay.setDate(lastDay.getDate() - 1); // Move to previous working day
+    }
+    lastDay.setHours(9, 0, 0, 0); // Set to 9 AM
+    payday = lastDay;
+    */
+
+    return payday;
+}
 
 // ===============================================================
-// COUNTDOWN TIMER FUNCTIONALITY
+// ENHANCED COUNTDOWN TIMER FUNCTIONALITY
 // ===============================================================
+
+// Message state management to prevent flickering
+let currentMessage = '';
+let lastMessageUpdate = 0;
+
+// Enhanced but satirical countdown functionality with smooth transitions
 function updateCountdown() {
+    const payDay = getNextPayday().getTime(); // Dynamic payday calculation!
     const now = new Date().getTime();
-    const payDay = PAYDAY_DATE.getTime();
     const timeRemaining = payDay - now;
+    const section = document.querySelector('.countdown-section');
 
-    // If payday has passed, show celebration
     if (timeRemaining < 0) {
-        document.getElementById('days').textContent = '00';
-        document.getElementById('hours').textContent = '00';
-        document.getElementById('minutes').textContent = '00';
-        document.getElementById('seconds').textContent = '00';
-
-        // Make wallet rich when payday arrives - time to celebrate!
-        document.getElementById('wallet').classList.add('rich');
-
-        // Add some celebration text
-        const countdownSection = document.querySelector('.countdown-section p');
-        countdownSection.textContent = '🎉 Payday has arrived! Time for Woolies instead of Pick n Pay! 🎉';
-        countdownSection.style.color = '#007749';
-        countdownSection.style.fontWeight = 'bold';
-
+        smoothUpdateNumber('days', 0);
+        smoothUpdateNumber('hours', 0);
+        smoothUpdateNumber('minutes', 0);
+        smoothUpdateNumber('seconds', 0);
+        smoothUpdateMessage('🎉 Payday has arrived! Please proceed to Woolies (Eskom permitting) 🎉');
+        section.classList.add('celebration');
         return;
     }
 
-    // Calculate time units (standard countdown logic)
     const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
     const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 
-    // Update the display with zero-padding (because we're professional like that)
-    document.getElementById('days').textContent = String(days).padStart(2, '0');
-    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    smoothUpdateNumber('days', days);
+    smoothUpdateNumber('hours', hours);
+    smoothUpdateNumber('minutes', minutes);
+    smoothUpdateNumber('seconds', seconds);
 
-    // Wallet logic - gets richer as payday approaches (like real life!)
-    // Calculate total countdown period (assuming week before payday for animation)
-    const weekBeforePayday = new Date(PAYDAY_DATE.getTime() - (7 * 24 * 60 * 60 * 1000));
-    const totalCountdownTime = PAYDAY_DATE.getTime() - weekBeforePayday.getTime();
+    updateSatiricalMessage(days, hours);
+
+    // Add urgency styling
+    if (days === 0 && hours < 6) {
+        section.classList.add('urgent');
+    } else {
+        section.classList.remove('urgent');
+    }
+
+    // Wallet logic - gets richer as payday approaches
+    const weekBeforePayday = new Date(getNextPayday().getTime() - (7 * 24 * 60 * 60 * 1000));
+    const totalCountdownTime = getNextPayday().getTime() - weekBeforePayday.getTime();
     const timeElapsed = totalCountdownTime - timeRemaining;
     const percentageToPayday = Math.max(0, (timeElapsed / totalCountdownTime) * 100);
 
@@ -119,41 +120,159 @@ function updateCountdown() {
     // Update wallet meme based on status
     updateWalletMeme(walletIsRich);
 
-    // Special South African time-based messages
-    updateSouthAfricanMessages(days, hours);
-
     // Update vibe check occasionally
     if (seconds % 30 === 0) {
         updateVibeCheck();
     }
 }
 
-// ===============================================================
-// SOUTH AFRICAN CONTEXTUAL MESSAGES
-// ===============================================================
-function updateSouthAfricanMessages(days, hours) {
-    const messageElement = document.querySelector('.countdown-section p');
-    let message = 'Official Countdown to Salary Day (Subject to SARS Deductions)';
+// Smooth number update function
+function smoothUpdateNumber(elementId, newValue) {
+    const element = document.getElementById(elementId);
+    const newValueString = String(newValue).padStart(2, '0');
 
-    if (days === 0 && hours < 24) {
-        message = '🚨 Final countdown! Start preparing your Shoprite list! 🚨';
-    } else if (days === 1) {
-        message = 'One more day of two-minute noodles and hope!';
-    } else if (days <= 3) {
-        message = 'Almost there! Time to start dreaming about real groceries.';
-    } else if (days <= 7) {
-        message = 'The light at the end of the tunnel! (And it\'s not load shedding!)';
-    } else if (days > 15) {
-        message = 'Eish... it\'s going to be a long month. Stock up on maggi noodles.';
+    // Only animate if the value actually changed
+    if (element.textContent !== newValueString) {
+        element.classList.add('changing');
+
+        setTimeout(() => {
+            element.textContent = newValueString;
+            element.classList.remove('changing');
+        }, 150);
+    }
+}
+
+// Smooth message update function
+function smoothUpdateMessage(newMessage) {
+    const messageElement = document.getElementById('countdownMessage');
+
+    if (messageElement.innerHTML !== newMessage) {
+        messageElement.classList.add('fade-out');
+
+        setTimeout(() => {
+            messageElement.innerHTML = newMessage;
+            messageElement.classList.remove('fade-out');
+            messageElement.classList.add('fade-in');
+
+            setTimeout(() => {
+                messageElement.classList.remove('fade-in');
+            }, 400);
+        }, 200);
+    }
+}
+
+function updateSatiricalMessage(days, hours) {
+    const now = Date.now();
+
+    // Only update message every 10 seconds or when time period changes significantly
+    if (now - lastMessageUpdate < 10000 && currentMessage !== '') {
+        return; // Don't update message too frequently
     }
 
-    messageElement.textContent = message;
+    const messages = [
+        'Official Countdown to Salary Day (Subject to SARS Deductions, Municipal Rate Increases, and Eskom\'s Mood)',
+        'Calculations verified by the Department of Financial Desperation (Accuracy not guaranteed during load shedding)',
+        'Timer synchronized with African Standard Time (Load shedding delays may apply)',
+        'As endorsed by the South African Association of Broke Professionals (SAABP)',
+        'Certified by the Bureau of Pre-Payday Survival Strategies (Results may vary with petrol prices)'
+    ];
+
+    let message = messages[0]; // Default
+
+    if (days === 0 && hours < 24) {
+        message = '🚨 FINAL COUNTDOWN PROTOCOL ACTIVATED! Emergency two-minute noodle rations recommended! 🚨';
+    } else if (days === 1) {
+        message = 'ONE DAY REMAINING: Please begin preliminary Shoprite list compilation (Generic brands only)';
+    } else if (days <= 3) {
+        message = 'APPROACHING PAYDAY: Financial resurrection protocols initiating. Stand by<span class="loading-dots"></span>';
+    } else if (days <= 7) {
+        message = 'WEEK REMAINING: Maintain current subsistence levels. Avoid Shell garage at all costs.';
+    } else if (days > 15) {
+        message = 'EXTENDED COUNTDOWN: Long-term survival mode engaged. Consider befriending local spaza shop owner.';
+    }
+
+    // Only occasionally cycle through different disclaimers, and only if enough time has passed
+    if (Math.random() < 0.05 && now - lastMessageUpdate > 30000) { // 5% chance and 30+ seconds passed
+        message = messages[Math.floor(Math.random() * messages.length)];
+    }
+
+    // Only update if the message actually changed
+    if (message !== currentMessage) {
+        currentMessage = message;
+        lastMessageUpdate = now;
+        smoothUpdateMessage(message);
+    }
+}
+
+// Enhanced but less glitchy click interaction
+function checkBankBalance(element) {
+    const timeLabel = element.querySelector('.time-label');
+    const originalText = timeLabel.textContent;
+    const jokes = ['EMPTY', 'ERROR', 'R0.00', 'NaN', '404', 'HAHA'];
+    const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+
+    // Smooth transition for the joke
+    timeLabel.style.transition = 'all 0.3s ease';
+    timeLabel.style.opacity = '0';
+    element.style.transition = 'all 0.3s ease';
+
+    setTimeout(() => {
+        timeLabel.textContent = randomJoke;
+        timeLabel.style.opacity = '1';
+        element.style.background = 'linear-gradient(145deg, #DE3831 0%, #b71c1c 100%)';
+    }, 150);
+
+    setTimeout(() => {
+        timeLabel.style.opacity = '0';
+        setTimeout(() => {
+            timeLabel.textContent = originalText;
+            timeLabel.style.opacity = '1';
+            element.style.background = 'linear-gradient(145deg, #007749 0%, #005234 100%)';
+        }, 150);
+    }, 2000);
+}
+
+// Less aggressive load shedding simulation
+function simulateLoadSheddingGlitch() {
+    if (Math.random() < 0.015) { // Reduced frequency from 2% to 1.5%
+        const powerStatus = document.querySelector('.power-status');
+
+        // Smooth transition for power status
+        powerStatus.style.transition = 'all 0.4s ease';
+        powerStatus.style.opacity = '0.5';
+
+        setTimeout(() => {
+            powerStatus.textContent = '🔌 Stage 4';
+            powerStatus.style.color = '#DE3831';
+            powerStatus.style.opacity = '1';
+        }, 200);
+
+        // Gentler flicker effect
+        document.querySelectorAll('.time-unit').forEach((unit, index) => {
+            setTimeout(() => {
+                unit.style.transition = 'opacity 0.2s ease';
+                unit.style.opacity = '0.6';
+                setTimeout(() => {
+                    unit.style.opacity = '1';
+                }, 300);
+            }, index * 100);
+        });
+
+        setTimeout(() => {
+            powerStatus.style.opacity = '0.5';
+            setTimeout(() => {
+                powerStatus.innerHTML = '🔋 Stage 0';
+                powerStatus.style.color = 'rgba(0, 119, 73, 0.6)';
+                powerStatus.style.opacity = '1';
+            }, 200);
+        }, 2500);
+    }
 }
 
 // ===============================================================
 // SOUTH AFRICAN SURVIVAL PROBABILITY CALCULATOR
 // ===============================================================
-// Array of hilariously South African survival analyses
+
 const southAfricanSurvivalAnalyses = [
     'Based on current two-minute noodle reserves and the probability of finding parking at Canal Walk.',
     'Assuming successful negotiation with your local spaza shop owner for "pay-next-week" credit arrangements.',
@@ -210,6 +329,7 @@ function calculateSouthAfricanSurvival() {
 // ===============================================================
 // MEMES AND ANIMATIONS SYSTEM
 // ===============================================================
+
 const vibeStates = [
     { emoji: '🫠', text: 'Current Vibe: Financially Challenged' },
     { emoji: '😭', text: 'Current Vibe: Crying in Broke' },
@@ -318,19 +438,6 @@ function showRandomMeme() {
             margin: -3px -3px 0 -3px;
             border-bottom: 2px solid #FFB612;
         ">
-            <div style="
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                margin-bottom: 5px;
-            ">
-                <img src="sa-flag.png" alt="SA Flag" style="
-                    width: 42px;
-                    height: 28px;
-                    border-radius: 3px;
-                ">
-            </div>
             <div style="font-weight: bold; font-size: 14px; letter-spacing: 1px;">SOUTH AFRICAN MEME ALERT</div>
         </div>
         
@@ -409,56 +516,19 @@ function showRandomMeme() {
     backdrop.className = 'meme-backdrop';
     backdrop.appendChild(memePopup);
 
-    // Add enhanced animations
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes memeSlideIn {
-            0% { 
-                transform: translate(-50%, -50%) scale(0.3) rotate(-10deg);
-                opacity: 0;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.1) rotate(2deg);
-            }
-            100% { 
-                transform: translate(-50%, -50%) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes memeWobble {
-            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
-            25% { transform: translate(-50%, -50%) rotate(1deg); }
-            75% { transform: translate(-50%, -50%) rotate(-1deg); }
-        }
-    `;
-    document.head.appendChild(style);
-
     // Close on backdrop click
     backdrop.addEventListener('click', function(e) {
         if (e.target === backdrop) {
             backdrop.remove();
-            style.remove();
         }
     });
 
     document.body.appendChild(backdrop);
 
-    // Add wobble animation after initial load
-    setTimeout(() => {
-        memePopup.style.animation = 'memeWobble 2s ease-in-out infinite';
-    }, 500);
-
     // Auto remove after 8 seconds
     setTimeout(() => {
         if (backdrop.parentNode) {
             backdrop.remove();
-            style.remove();
         }
     }, 8000);
 }
@@ -500,6 +570,7 @@ function showReactionMeme(percentage) {
 // ===============================================================
 // TESTIMONIALS SCROLL FUNCTIONALITY
 // ===============================================================
+
 function scrollTestimonials(direction) {
     const container = document.querySelector('.testimonials-scroll');
     const scrollAmount = 340; // Width of one testimonial plus gap
@@ -510,6 +581,11 @@ function scrollTestimonials(direction) {
         container.scrollLeft -= scrollAmount;
     }
 }
+
+// ===============================================================
+// LOAD SHEDDING SIMULATION
+// ===============================================================
+
 function simulateLoadShedding() {
     // Create a full-screen overlay for dramatic effect
     const flashOverlay = document.createElement('div');
@@ -582,18 +658,7 @@ function showLoadSheddingMessage() {
         max-width: 400px;
         border: 3px solid #FFB612;
         box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        animation: slideIn 0.5s ease-out;
     `;
-
-    // Add CSS animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-    `;
-    document.head.appendChild(style);
 
     message.innerHTML = `
         <h2 style="margin: 0 0 15px 0; color: #FFB612;">⚡ LOAD SHEDDING SIMULATION ⚡</h2>
@@ -609,7 +674,7 @@ function showLoadSheddingMessage() {
         <p style="margin: 0 0 20px 0; font-style: italic; opacity: 0.8; font-size: 14px;">
             "Thanks Eskom, very cool!" - Nobody, ever
         </p>
-        <button onclick="this.parentElement.parentElement.remove(); document.head.removeChild(document.head.lastElementChild);" style="
+        <button onclick="this.parentElement.parentElement.remove();" style="
             background: #FFB612;
             color: #002F6C;
             border: none;
@@ -627,8 +692,9 @@ function showLoadSheddingMessage() {
 }
 
 // ===============================================================
-// PROUDLY SOUTH AFRICAN EASTER EGGS
+// EASTER EGGS AND SPECIAL FEATURES
 // ===============================================================
+
 // Konami code adapted for South African context: ↑↑↓↓←→←→BA
 let konamiSequence = [];
 const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
@@ -688,8 +754,9 @@ document.addEventListener('keydown', function(event) {
 });
 
 // ===============================================================
-// SOUTH AFRICAN DATE AND TIME UTILITIES
+// UTILITY FUNCTIONS
 // ===============================================================
+
 function formatSouthAfricanDate(date) {
     const options = {
         year: 'numeric',
@@ -707,9 +774,59 @@ function getSouthAfricanTime() {
     });
 }
 
-// ===============================================================
-// MOTIVATIONAL MESSAGES SYSTEM
-// ===============================================================
+// Function to calculate days until next public holiday
+function daysUntilNextPublicHoliday() {
+    const today = new Date();
+    const publicHolidays2025 = [
+        new Date(2025, 0, 1),   // New Year's Day
+        new Date(2025, 2, 21),  // Human Rights Day
+        new Date(2025, 3, 18),  // Good Friday
+        new Date(2025, 3, 21),  // Family Day
+        new Date(2025, 3, 27),  // Freedom Day
+        new Date(2025, 4, 1),   // Workers' Day
+        new Date(2025, 5, 16),  // Youth Day
+        new Date(2025, 7, 9),   // National Women's Day
+        new Date(2025, 8, 24),  // Heritage Day
+        new Date(2025, 11, 16), // Day of Reconciliation
+        new Date(2025, 11, 25), // Christmas Day
+        new Date(2025, 11, 26)  // Day of Goodwill
+    ];
+
+    const nextHoliday = publicHolidays2025.find(holiday => holiday > today);
+    if (nextHoliday) {
+        const diff = nextHoliday.getTime() - today.getTime();
+        return Math.ceil(diff / (1000 * 60 * 60 * 24));
+    }
+    return null;
+}
+
+function checkForSpecialDates() {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth();
+
+    // Heritage Day (24 September)
+    if (month === 8 && day === 24) {
+        document.querySelector('.tagline').textContent = 'Happy Heritage Day! Celebrating Diversity in Poverty Since 1995™';
+    }
+
+    // Youth Day (16 June)
+    if (month === 5 && day === 16) {
+        document.querySelector('.tagline').textContent = 'Youth Day Special: Young and Broke Since 1976™';
+    }
+
+    // Freedom Day (27 April)
+    if (month === 3 && day === 27) {
+        document.querySelector('.tagline').textContent = 'Freedom Day: Free to be Financially Challenged™';
+    }
+
+    // Month-end madness (last 3 days of month)
+    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+    if (day >= lastDay - 2) {
+        showRandomMotivation();
+    }
+}
+
 const motivationalMessages = [
     'Remember: This too shall pass (unlike the petrol price increases).',
     'You\'ve survived 100% of your worst financial days so far!',
@@ -750,52 +867,34 @@ function showRandomMotivation() {
 }
 
 // ===============================================================
-// SPECIAL SOUTH AFRICAN FEATURES
+// INITIALIZATION
 // ===============================================================
-function checkForSpecialDates() {
-    const today = new Date();
-    const day = today.getDate();
-    const month = today.getMonth();
 
-    // Heritage Day (24 September)
-    if (month === 8 && day === 24) {
-        document.querySelector('.tagline').textContent = 'Happy Heritage Day! Celebrating Diversity in Poverty Since 1995™';
-    }
-
-    // Youth Day (16 June)
-    if (month === 5 && day === 16) {
-        document.querySelector('.tagline').textContent = 'Youth Day Special: Young and Broke Since 1976™';
-    }
-
-    // Freedom Day (27 April)
-    if (month === 3 && day === 27) {
-        document.querySelector('.tagline').textContent = 'Freedom Day: Free to be Financially Challenged™';
-    }
-
-    // Month-end madness (last 3 days of month)
-    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-    if (day >= lastDay - 2) {
-        showRandomMotivation();
-    }
-}
-
-// ===============================================================
-// INITIALIZATION AND EVENT LISTENERS
-// ===============================================================
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🇿🇦 South African Pre-Payday Survival Bureau initialized successfully!');
-    console.log('⏰ Target payday:', formatSouthAfricanDate(PAYDAY_DATE));
-    console.log('🛠️ To change the payday date, modify the PAYDAY_DATE variable at the top of script.js');
-    console.log('💡 Easter eggs: Try typing "BRAAI" or "HOWZIT" or use the Konami code!');
+    console.log('📅 Next payday calculated as:', getNextPayday().toLocaleDateString('en-ZA'));
 
-    // Start the countdown timer
+    // Start the countdown
     updateCountdown();
-
-    // Update countdown every second (unless there's load shedding)
     setInterval(updateCountdown, 1000);
+    setInterval(simulateLoadSheddingGlitch, 5000);
+
+    // Initialize the first message
+    currentMessage = 'Official Countdown to Salary Day (Subject to SARS Deductions, Municipal Rate Increases, and Eskom\'s Mood)';
+    lastMessageUpdate = Date.now();
+
+    // Optional: Add payday info to console for debugging
+    const nextPayday = getNextPayday();
+    console.log('🗓️ Payday details:');
+    console.log('   Date:', nextPayday.toDateString());
+    console.log('   Time:', nextPayday.toTimeString());
+    console.log('   Days until payday:', Math.ceil((nextPayday - new Date()) / (1000 * 60 * 60 * 24)));
 
     // Add click listener to survival button
-    document.getElementById('survivalButton').addEventListener('click', calculateSouthAfricanSurvival);
+    const survivalButton = document.getElementById('survivalButton');
+    if (survivalButton) {
+        survivalButton.addEventListener('click', calculateSouthAfricanSurvival);
+    }
 
     // Check for special South African dates
     checkForSpecialDates();
@@ -806,6 +905,13 @@ document.addEventListener('DOMContentLoaded', function() {
             showRandomMotivation();
         }
     }, 30000);
+
+    // Initialize memes and animations
+    updateVibeCheck();
+    updateWalletMeme(false);
+
+    // Change vibe every 45 seconds
+    setInterval(updateVibeCheck, 45000);
 
     // Load shedding simulation - Triple L press (LLL)
     let loadSheddingSequence = [];
@@ -831,6 +937,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     console.log('🕐 Current SA time:', getSouthAfricanTime());
+    console.log(`🎮 EASTER EGG INSTRUCTIONS:
+- Press L three times quickly (LLL) for load shedding simulation
+- Type "BRAAI" for braai mode
+- Type "HOWZIT" for SA greetings
+- Use Konami code (↑↑↓↓←→←→BA) for instant wealth`);
 
     // Show a welcome message
     setTimeout(() => {
@@ -839,76 +950,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 2000);
 
-    // Show instructions for easter eggs
-    console.log(`
-🎮 EASTER EGG INSTRUCTIONS:
-- Press L three times quickly (LLL) for load shedding simulation
-- Type "BRAAI" for braai mode
-- Type "HOWZIT" for SA greetings
-- Use Konami code (↑↑↓↓←→←→BA) for instant wealth
-    `);
-});
-
-// ===============================================================
-// UTILITY FUNCTIONS FOR FUTURE ENHANCEMENTS
-// ===============================================================
-
-// Function to calculate days until next public holiday
-function daysUntilNextPublicHoliday() {
-    const today = new Date();
-    const publicHolidays2025 = [
-        new Date(2025, 0, 1),   // New Year's Day
-        new Date(2025, 2, 21),  // Human Rights Day
-        new Date(2025, 3, 18),  // Good Friday
-        new Date(2025, 3, 21),  // Family Day
-        new Date(2025, 3, 27),  // Freedom Day
-        new Date(2025, 4, 1),   // Workers' Day
-        new Date(2025, 5, 16),  // Youth Day
-        new Date(2025, 7, 9),   // National Women's Day
-        new Date(2025, 8, 24),  // Heritage Day
-        new Date(2025, 11, 16), // Day of Reconciliation
-        new Date(2025, 11, 25), // Christmas Day
-        new Date(2025, 11, 26)  // Day of Goodwill
-    ];
-
-    const nextHoliday = publicHolidays2025.find(holiday => holiday > today);
-    if (nextHoliday) {
-        const diff = nextHoliday.getTime() - today.getTime();
-        return Math.ceil(diff / (1000 * 60 * 60 * 24));
-    }
-    return null;
-}
-
-// Function to check if it's a payday (25th or last working day)
-function isPayday(date = new Date()) {
-    const day = date.getDate();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-
-    // Check if it's the 25th
-    if (day === 25) return true;
-
-    // Check if it's the last working day of the month
-    const lastDay = new Date(year, month + 1, 0);
-    const lastWorkingDay = getLastWorkingDay(year, month);
-
-    return day === lastWorkingDay.getDate();
-}
-
-function getLastWorkingDay(year, month) {
-    let lastDay = new Date(year, month + 1, 0);
-
-    // Move backwards from last day until we find a weekday
-    while (lastDay.getDay() === 0 || lastDay.getDay() === 6) {
-        lastDay.setDate(lastDay.getDate() - 1);
-    }
-
-    return lastDay;
-}
-
-// Console easter egg
-console.log(`
-🇿🇦 Welcome to the South African Pre-Payday Survival Bureau! 🇿🇦
+    console.log(`🇿🇦 Welcome to the South African Pre-Payday Survival Bureau! 🇿🇦
 
 Available Easter Eggs:
 - Press L three times quickly (LLL) for load shedding simulation  
@@ -918,8 +960,8 @@ Available Easter Eggs:
 
 Fun fact: You have ${daysUntilNextPublicHoliday() || 'many'} days until the next public holiday!
 
-Stay strong, boet/sus! Payday is coming! 💪
-`);
+Stay strong, boet/sus! Payday is coming! 💪`);
+});
 
 // ===============================================================
 // END OF SOUTH AFRICAN PRE-PAYDAY SURVIVAL BUREAU SCRIPT

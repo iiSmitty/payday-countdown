@@ -18,26 +18,54 @@
     <div class="container">
         <!-- Countdown Section -->
         <section class="countdown-section">
-            <h2 class="countdown-title">Time Remaining Until Financial Liberation</h2>
+            <!-- Official government aesthetic -->
+            <div class="official-header">
+                <div class="official-stamp">SARS APPROVED</div>
+                <h2 class="countdown-title">Time Remaining Until Financial Liberation</h2>
+                <p class="subtitle-official">As calculated by the Department of Pre-Payday Desperation (Est. 1994)</p>
+            </div>
+
+            <!-- Power status indicator -->
+            <div class="power-status">Stage 0</div>
+
             <div class="countdown-timer" id="countdown">
-                <div class="time-unit">
-                    <span class="time-number" id="days">00</span>
+                <div class="time-unit" onclick="checkBankBalance(this)">
+                    <span class="time-number" id="days">05</span>
                     <span class="time-label">Days</span>
                 </div>
-                <div class="time-unit">
-                    <span class="time-number" id="hours">00</span>
+                <div class="time-unit" onclick="checkBankBalance(this)">
+                    <span class="time-number" id="hours">21</span>
                     <span class="time-label">Hours</span>
                 </div>
-                <div class="time-unit">
-                    <span class="time-number" id="minutes">00</span>
+                <div class="time-unit" onclick="checkBankBalance(this)">
+                    <span class="time-number" id="minutes">53</span>
                     <span class="time-label">Minutes</span>
                 </div>
-                <div class="time-unit">
-                    <span class="time-number" id="seconds">00</span>
+                <div class="time-unit" onclick="checkBankBalance(this)">
+                    <span class="time-number" id="seconds">55</span>
                     <span class="time-label">Seconds</span>
                 </div>
             </div>
-            <p style="color: #7f8c8d; font-style: italic;">Official Countdown to Salary Day (Subject to SARS Deductions)</p>
+
+            <!-- Satirical disclaimer -->
+            <div class="status-disclaimer">
+                <p class="disclaimer-text" id="countdownMessage">
+                    Official Countdown to Salary Day (Subject to SARS Deductions, Municipal Rate Increases, and Eskom's Mood)
+                </p>
+            </div>
+
+            <!-- Mock technical specifications -->
+            <div class="tech-specs">
+                <h4>Technical Specifications (Form SA-PPB-2025)</h4>
+                <ul>
+                    <li>Load shedding resistant battery backup system</li>
+                    <li>Petrol price fluctuation compensation algorithm</li>
+                    <li>SARS audit-proof calculation methodology</li>
+                    <li>Municipal billing surprise factor integration</li>
+                    <li>Two-minute noodle sustainability index</li>
+                </ul>
+                <div class="form-number">Form Ref: SA-DPD-001-2025.v3.1</div>
+            </div>
         </section>
 
         <!-- Visual Gag -->

@@ -50,58 +50,283 @@ body {
     background-color: white;
 }
 
-/* Countdown Section */
+/* Enhanced but satirical countdown section */
 .countdown-section {
     text-align: center;
     margin-bottom: 60px;
-    padding: 40px;
+    padding: 50px 40px;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border: 2px solid #007749;
+    border: 3px solid #007749;
+    border-radius: 16px;
+    box-shadow:
+            0 8px 32px rgba(0, 119, 73, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle SA flag stripe at top */
+.countdown-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg,
+    #007749 0%, #007749 25%,
+    #FFB612 25%, #FFB612 50%,
+    #DE3831 50%, #DE3831 75%,
+    #002F6C 75%, #002F6C 100%);
+    border-radius: 16px 16px 0 0;
+}
+
+/* Satirical "official" header */
+.official-header {
+    background: rgba(0, 47, 108, 0.05);
+    border: 1px dashed #002F6C;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.official-stamp {
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    background: #DE3831;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transform: rotate(-12deg);
+    box-shadow: 0 2px 8px rgba(222, 56, 49, 0.3);
+    z-index: 5;
 }
 
 .countdown-title {
-    font-size: 2em;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
     color: #002F6C;
-    margin-bottom: 30px;
+    margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: bold;
+    line-height: 1.1;
 }
 
+.subtitle-official {
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+/* Timer with subtle SA government aesthetic */
 .countdown-timer {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .time-unit {
-    background: linear-gradient(135deg, #007749 0%, #005234 100%);
+    background: linear-gradient(145deg, #007749 0%, #005234 100%);
     color: white;
-    padding: 20px;
-    border-radius: 8px;
-    min-width: 120px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    border: 2px solid #FFB612;
+    padding: 25px 15px;
+    border-radius: 12px;
+    border: 3px solid #FFB612;
+    box-shadow:
+            0 6px 20px rgba(0, 119, 73, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.time-unit:hover {
+    transform: translateY(-4px);
+    box-shadow:
+            0 12px 30px rgba(0, 119, 73, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: #ffd700;
+}
+
+/* Subtle "load shedding resistant" badge */
+.time-unit::after {
+    content: '⚡';
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    font-size: 12px;
+    opacity: 0.6;
+    animation: flicker 3s ease-in-out infinite;
+}
+
+@keyframes flicker {
+    0%, 90%, 100% { opacity: 0.6; }
+    95% { opacity: 0.2; }
 }
 
 .time-number {
     display: block;
-    font-size: 2.5em;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 8px;
+    font-family: 'Arial Black', Arial, sans-serif;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .time-label {
     display: block;
-    font-size: 0.9em;
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 5px;
+    opacity: 0.95;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+/* Smooth number change animation */
+.time-number.changing {
+    transform: scale(1.1);
+    color: #FFB612;
+    text-shadow:
+            1px 1px 3px rgba(0, 0, 0, 0.3),
+            0 0 10px rgba(255, 182, 18, 0.4);
+}
+
+/* Satirical status messages */
+.status-disclaimer {
+    background: rgba(255, 184, 18, 0.1);
+    border: 2px dashed #FFB612;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 30px;
+    position: relative;
+}
+
+.status-disclaimer::before {
+    content: '⚠️';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: #f5f5f5;
+    padding: 0 8px;
+    font-size: 16px;
+}
+
+.disclaimer-text {
+    color: #666;
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+    text-align: center;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.disclaimer-text.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.disclaimer-text.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* "Technical specifications" section */
+.tech-specs {
+    background: rgba(0, 47, 108, 0.02);
+    border: 1px solid rgba(0, 47, 108, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #555;
+}
+
+.tech-specs h4 {
+    color: #002F6C;
+    margin-bottom: 10px;
+    font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: 5px;
-    opacity: 0.9;
+}
+
+.tech-specs ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.tech-specs li {
+    margin-bottom: 5px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.tech-specs li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #007749;
+    font-weight: bold;
+}
+
+/* SA government form aesthetic touches */
+.form-number {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    font-size: 10px;
+    color: rgba(0, 47, 108, 0.4);
+    font-family: monospace;
+}
+
+/* Special states */
+.celebration .time-unit {
+    animation: celebrate 0.6s ease-in-out;
+    background: linear-gradient(145deg, #007749 0%, #00a862 100%);
+}
+
+@keyframes celebrate {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.05) translateY(-2px); }
+}
+
+.urgent .time-unit {
+    border-color: #DE3831;
+    animation: urgent-blink 1s ease-in-out infinite alternate;
+}
+
+@keyframes urgent-blink {
+    from { box-shadow: 0 6px 20px rgba(222, 56, 49, 0.2); }
+    to { box-shadow: 0 6px 20px rgba(222, 56, 49, 0.4); }
+}
+
+/* Eskom joke elements */
+.power-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 12px;
+    color: rgba(0, 119, 73, 0.8);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 119, 73, 0.3);
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.power-status::before {
+    content: '🔋 ';
 }
 
 /* Visual Gag - South African Wallet */
@@ -404,52 +629,6 @@ body {
     transform: translateY(0);
 }
 
-/* Dark mode testimonials */
-.load-shedding-mode .testimonial {
-    background: linear-gradient(135deg, #333333 0%, #2d2d2d 100%) !important;
-    color: #f0f0f0 !important;
-    border-left-color: #007749 !important;
-}
-
-.load-shedding-mode .testimonial-text {
-    color: #e0e0e0 !important;
-}
-
-.load-shedding-mode .testimonial-author strong {
-    color: #ffffff !important;
-}
-
-.load-shedding-mode .testimonial-author .location {
-    color: #FFB612 !important;
-}
-
-.load-shedding-mode .testimonial-author .connection {
-    color: #cccccc !important;
-}
-
-.load-shedding-mode .testimonials-scroll::-webkit-scrollbar-track {
-    background: #333333;
-}
-
-/* Responsive testimonials */
-@media (max-width: 768px) {
-    .testimonial {
-        min-width: 280px;
-        max-width: 300px;
-        padding: 20px;
-    }
-
-    .testimonials-scroll {
-        gap: 15px;
-    }
-
-    .nav-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 16px;
-    }
-}
-
 /* Footer - South African Colors */
 .footer {
     background: linear-gradient(135deg, #002F6C 0%, #001a3d 100%);
@@ -468,19 +647,66 @@ body {
     font-size: 0.8em;
 }
 
+/* South African Flag Image */
+.sa-flag-img {
+    display: inline-block;
+    width: 32px;
+    height: 21px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border-radius: 2px;
+    transition: transform 0.2s ease;
+}
+
+.sa-flag-img:hover {
+    transform: scale(1.1);
+}
+
+/* Better spacing in footer for flag */
+.footer p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+/* Proudly South African Badge */
+.south-african-flag {
+    display: inline-block;
+    width: 20px;
+    height: 12px;
+    background: linear-gradient(to right,
+    #007749 0%, #007749 16.67%,
+    #FFB612 16.67%, #FFB612 33.33%,
+    #DE3831 33.33%, #DE3831 50%,
+    #002F6C 50%, #002F6C 66.67%,
+    black 66.67%, black 83.33%,
+    white 83.33%, white 100%);
+    margin-right: 5px;
+    border-radius: 2px;
+}
+
 /* Responsive Design for Mobile */
 @media (max-width: 768px) {
+    .countdown-section {
+        padding: 30px 20px;
+        border-radius: 12px;
+    }
+
     .countdown-timer {
-        gap: 15px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
 
     .time-unit {
-        min-width: 80px;
-        padding: 15px 10px;
+        padding: 20px 10px;
     }
 
-    .time-number {
-        font-size: 1.8em;
+    .official-stamp {
+        position: static;
+        transform: none;
+        display: inline-block;
+        margin-bottom: 10px;
     }
 
     .agency-name {
@@ -500,6 +726,22 @@ body {
         padding: 12px 20px;
         font-size: 1em;
     }
+
+    .testimonial {
+        min-width: 280px;
+        max-width: 300px;
+        padding: 20px;
+    }
+
+    .testimonials-scroll {
+        gap: 15px;
+    }
+
+    .nav-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -515,9 +757,14 @@ body {
         font-size: 1.2em;
     }
 
+    .countdown-timer {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
     .time-unit {
         min-width: 70px;
-        padding: 10px 8px;
+        padding: 15px 8px;
     }
 
     .time-number {
@@ -527,6 +774,23 @@ body {
     .time-label {
         font-size: 0.8em;
     }
+
+    .countdown-section {
+        padding: 20px 15px;
+    }
+}
+
+/* Subtle animations for authenticity */
+.loading-dots::after {
+    content: '';
+    animation: dots 2s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80%, 100% { content: '...'; }
 }
 
 /* Meme Alert Box */
@@ -752,9 +1016,202 @@ body {
     animation: bounce 2s infinite;
 }
 
-/* Dark Mode Memes */
+/* ===============================================================
+   ENHANCED DARK MODE (LOAD SHEDDING MODE) STYLES
+   =============================================================== */
+
+.load-shedding-mode {
+    background-color: #0a0a0a !important;
+    color: #f0f0f0 !important;
+}
+
+.load-shedding-mode .main-content {
+    background-color: #0a0a0a !important;
+}
+
+/* Enhanced countdown section in dark mode */
+.load-shedding-mode .countdown-section {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
+    border-color: #007749 !important;
+    color: #f0f0f0 !important;
+    box-shadow:
+            0 8px 32px rgba(0, 119, 73, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Official header in dark mode */
+.load-shedding-mode .official-header {
+    background: rgba(0, 119, 73, 0.1) !important;
+    border-color: rgba(0, 119, 73, 0.3) !important;
+}
+
+.load-shedding-mode .official-stamp {
+    background: #DE3831 !important;
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(222, 56, 49, 0.5) !important;
+}
+
+.load-shedding-mode .countdown-title {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+.load-shedding-mode .subtitle-official {
+    color: #cccccc !important;
+}
+
+/* Enhanced time units in dark mode */
+.load-shedding-mode .time-unit {
+    background: linear-gradient(145deg, #007749 0%, #005234 100%) !important;
+    border-color: #FFB612 !important;
+    color: #ffffff !important;
+    box-shadow:
+            0 6px 20px rgba(0, 119, 73, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.load-shedding-mode .time-unit:hover {
+    box-shadow:
+            0 12px 30px rgba(0, 119, 73, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    border-color: #ffd700 !important;
+}
+
+.load-shedding-mode .time-number {
+    color: #ffffff !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5) !important;
+}
+
+.load-shedding-mode .time-label {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Enhanced status disclaimer in dark mode */
+.load-shedding-mode .status-disclaimer {
+    background: rgba(255, 184, 18, 0.15) !important;
+    border-color: rgba(255, 184, 18, 0.5) !important;
+}
+
+.load-shedding-mode .status-disclaimer::before {
+    background: #1a1a1a !important;
+}
+
+.load-shedding-mode .disclaimer-text {
+    color: #e0e0e0 !important;
+}
+
+/* Enhanced tech specs in dark mode */
+.load-shedding-mode .tech-specs {
+    background: rgba(0, 119, 73, 0.08) !important;
+    border-color: rgba(0, 119, 73, 0.2) !important;
+    color: #cccccc !important;
+}
+
+.load-shedding-mode .tech-specs h4 {
+    color: #ffffff !important;
+}
+
+.load-shedding-mode .tech-specs li::before {
+    color: #00ff88 !important;
+}
+
+.load-shedding-mode .form-number {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Enhanced power status in dark mode */
+.load-shedding-mode .power-status {
+    background: rgba(26, 26, 26, 0.9) !important;
+    border-color: rgba(0, 119, 73, 0.5) !important;
+    color: #00ff88 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Enhanced testimonials in dark mode */
+.load-shedding-mode .testimonial {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%) !important;
+    color: #f0f0f0 !important;
+    border-left-color: #007749 !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.load-shedding-mode .testimonial-text {
+    color: #e0e0e0 !important;
+}
+
+.load-shedding-mode .testimonial-author strong {
+    color: #ffffff !important;
+}
+
+.load-shedding-mode .testimonial-author .location {
+    color: #00ff88 !important;
+}
+
+.load-shedding-mode .testimonial-author .connection {
+    color: #cccccc !important;
+}
+
+.load-shedding-mode .testimonials-scroll::-webkit-scrollbar-track {
+    background: #2d2d2d !important;
+}
+
+.load-shedding-mode .testimonials-scroll::-webkit-scrollbar-thumb {
+    background: #007749 !important;
+}
+
+/* General section improvements in dark mode */
+.load-shedding-mode .section {
+    background-color: #1a1a1a !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #f0f0f0 !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.load-shedding-mode .section-content {
+    color: #e0e0e0 !important;
+}
+
+.load-shedding-mode .section-title {
+    color: #ffffff !important;
+    border-bottom-color: #007749 !important;
+}
+
+.load-shedding-mode .section-title::after {
+    background-color: #FFB612 !important;
+}
+
+/* Enhanced wallet section in dark mode */
+.load-shedding-mode .wallet-section {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%) !important;
+    border-color: rgba(255, 184, 18, 0.3) !important;
+    color: #f0f0f0 !important;
+}
+
+.load-shedding-mode .wallet-section h3 {
+    color: #ffffff !important;
+}
+
+/* Enhanced survival section in dark mode */
+.load-shedding-mode .survival-section {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
+    border-left-color: #007749 !important;
+    color: #f0f0f0 !important;
+}
+
+.load-shedding-mode .survival-result {
+    background-color: #2d2d2d !important;
+    border-color: #007749 !important;
+    color: #f0f0f0 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.load-shedding-mode .survival-analysis {
+    color: #cccccc !important;
+}
+
+/* Enhanced meme elements in dark mode */
 .load-shedding-mode .meme-image {
-    background: #333333 !important;
+    background: #2d2d2d !important;
     border-color: #666 !important;
 }
 
@@ -765,21 +1222,42 @@ body {
 }
 
 .load-shedding-mode .status-item {
-    background: rgba(0, 119, 73, 0.2) !important;
-    border-color: #007749 !important;
+    background: rgba(0, 119, 73, 0.15) !important;
+    border-color: rgba(0, 119, 73, 0.4) !important;
 }
 
 .load-shedding-mode .status-text {
-    color: #FFB612 !important;
+    color: #00ff88 !important;
 }
 
 .load-shedding-mode .reaction-gif {
-    background: linear-gradient(135deg, #333333, #2d2d2d) !important;
+    background: linear-gradient(135deg, #2d2d2d, #1a1a1a) !important;
     border-color: #007749 !important;
 }
 
 .load-shedding-mode .reaction-text {
     color: #ffffff !important;
+}
+
+/* Footer in dark mode */
+.load-shedding-mode .footer {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%) !important;
+    color: #f0f0f0 !important;
+}
+
+/* Fix countdown section text in dark mode */
+.load-shedding-mode .countdown-section p,
+.load-shedding-mode .wallet-section p {
+    color: #cccccc !important;
+}
+
+/* Fix any remaining text visibility issues */
+.load-shedding-mode h1,
+.load-shedding-mode h2,
+.load-shedding-mode h3,
+.load-shedding-mode p,
+.load-shedding-mode span {
+    color: inherit !important;
 }
 
 /* Mobile Responsive Memes */
@@ -803,149 +1281,4 @@ body {
     .vibe-emoji {
         font-size: 24px;
     }
-}
-.load-shedding-mode {
-    background-color: #1a1a1a !important;
-    color: #f0f0f0 !important;
-}
-
-.load-shedding-mode .main-content {
-    background-color: #1a1a1a !important;
-}
-
-.load-shedding-mode .section {
-    background-color: #2d2d2d !important;
-    border-color: #555 !important;
-    color: #f0f0f0 !important;
-}
-
-.load-shedding-mode .countdown-section {
-    background: linear-gradient(135deg, #2d2d2d 0%, #333333 100%) !important;
-    border-color: #007749 !important;
-    color: #f0f0f0 !important;
-}
-
-.load-shedding-mode .countdown-title {
-    color: #ffffff !important;
-}
-
-.load-shedding-mode .wallet-section {
-    background-color: #2d2d2d !important;
-    border-color: #555 !important;
-    color: #f0f0f0 !important;
-}
-
-.load-shedding-mode .wallet-section h3 {
-    color: #ffffff !important;
-}
-
-.load-shedding-mode .survival-section {
-    background: linear-gradient(135deg, #2d2d2d 0%, #333333 100%) !important;
-    border-left-color: #007749 !important;
-    color: #f0f0f0 !important;
-}
-
-.load-shedding-mode .testimonial {
-    background: linear-gradient(135deg, #333333 0%, #2d2d2d 100%) !important;
-    color: #f0f0f0 !important;
-    border-left-color: #007749 !important;
-}
-
-.load-shedding-mode .section-content {
-    color: #e0e0e0 !important;
-}
-
-.load-shedding-mode .testimonial-text {
-    color: #e0e0e0 !important;
-}
-
-.load-shedding-mode .section-title {
-    color: #ffffff !important;
-    border-bottom-color: #007749 !important;
-}
-
-.load-shedding-mode .section-title::after {
-    background-color: #FFB612 !important;
-}
-
-.load-shedding-mode .testimonial-author {
-    color: #ffffff !important;
-}
-
-/* Fix any remaining dark text in load shedding mode */
-.load-shedding-mode h1,
-.load-shedding-mode h2,
-.load-shedding-mode h3,
-.load-shedding-mode p,
-.load-shedding-mode span {
-    color: inherit !important;
-}
-
-/* Ensure countdown text stays readable */
-.load-shedding-mode .time-unit {
-    background: linear-gradient(135deg, #007749 0%, #005234 100%) !important;
-    color: white !important;
-    border-color: #FFB612 !important;
-}
-
-/* Footer in dark mode */
-.load-shedding-mode .footer {
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%) !important;
-    color: #f0f0f0 !important;
-}
-
-/* Ensure all paragraphs and text elements are visible */
-.load-shedding-mode .countdown-section p,
-.load-shedding-mode .wallet-section p {
-    color: #cccccc !important;
-}
-
-/* Survival result text in dark mode */
-.load-shedding-mode .survival-result {
-    background-color: #333333 !important;
-    border-color: #007749 !important;
-    color: #f0f0f0 !important;
-}
-
-.load-shedding-mode .survival-analysis {
-    color: #cccccc !important;
-}
-
-/* South African Flag Image */
-.sa-flag-img {
-    display: inline-block;
-    width: 32px;
-    height: 21px;
-    margin-right: 8px;
-    vertical-align: middle;
-    border-radius: 2px;
-    transition: transform 0.2s ease;
-}
-
-.sa-flag-img:hover {
-    transform: scale(1.1);
-}
-
-/* Better spacing in footer for flag */
-.footer p {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-}
-
-/* Proudly South African Badge */
-.south-african-flag {
-    display: inline-block;
-    width: 20px;
-    height: 12px;
-    background: linear-gradient(to right,
-    #007749 0%, #007749 16.67%,
-    #FFB612 16.67%, #FFB612 33.33%,
-    #DE3831 33.33%, #DE3831 50%,
-    #002F6C 50%, #002F6C 66.67%,
-    black 66.67%, black 83.33%,
-    white 83.33%, white 100%);
-    margin-right: 5px;
-    border-radius: 2px;
 }
